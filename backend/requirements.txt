@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+
+databases[postgresql] # add
+SQLAlchemy # add
+alembic # add
+psycopg2 # add
