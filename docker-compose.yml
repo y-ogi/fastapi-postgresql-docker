@@ -8,7 +8,7 @@ services:
     container_name: 'fastapi'
     working_dir: '/root'
     volumes:
-      - ${BACKEND_PATH}:/root/app
+      - ${BACKEND_APP_PATH}:/root/app
     env_file:
       - .env
     ports: 
