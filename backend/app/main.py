@@ -1,12 +1,23 @@
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException, Path
+from sqlalchemy.orm import sessionmaker, Session
+from app.core.database import db_engine, get_db
+import app.core.crud as crud
+import app.models as models
+import app.models.schemas as schemas
 
 app = FastAPI()
 
 def read_root():
     return {"Hello", "World"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
-    
+@app.get("/items/{id}")
+def get_item(id: int, db: Session = Depends(get_db)):
+    db_item = crud.get_item(db=db, item_id=id)
+    if db_item is None:
+        raise HTTPException(status_code=404, detail="Item not Found")
+    return db_item
+
+@app.post("/items/")
+def create_item(item: schemas.ItemSchema, db: Session = Depends(get_db)):
+    return crud.create_item(db=db, item=item)
