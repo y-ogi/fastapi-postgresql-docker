@@ -14,3 +14,11 @@ def create_item(db: Session, item: schemas.ItemSchema):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+def update_item(db: Session, item_id: int, item: schemas.ItemSchema):
+    db_item = get_item(db=db, item_id=item_id)
+    if db_item is not None:
+        db_item.name = item.name
+        db.commit()
+        db.refresh(db_item)
+    return db_item
