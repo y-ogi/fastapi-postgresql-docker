@@ -9,13 +9,31 @@ services:
     working_dir: '/root'
     volumes:
       - ${BACKEND_PATH}:/root
-    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     env_file:
       - .env
     ports: 
       - "8000:8000"
     depends_on:
       - db
+
+  vue:
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: 'vue'
+    working_dir: '/root/app'
+    tty: true
+    volumes:
+      - ${FRONTEND_PATH}:/root
+    command: yarn serve
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - fastapi
 
   db:
     image: postgres:15.1
