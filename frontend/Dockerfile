@@ -8,3 +8,4 @@ RUN mkdir -p /root/app
 WORKDIR /root/app
 
 RUN yarn global add @vue/cli @vue/cli-init
+RUN yarn install
