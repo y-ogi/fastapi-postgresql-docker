@@ -32,3 +32,5 @@ yarn serve
 exit
 ps -ef | grep yarn
 exit
+yarn serve
+exit

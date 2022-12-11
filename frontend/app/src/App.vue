@@ -2,12 +2,6 @@
 </script>
 
 <template>
-  <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-    </nav>
-  </header>
-  <h1>Hello World</h1>
+  <v-toolbar title="Application"></v-toolbar>
   <RouterView />
 </template>
