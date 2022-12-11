@@ -1,24 +1,13 @@
-<template>
-  <ItemView/>
-</template>
-
-<script>
-import ItemView from './components/ItemView.vue'
-
-export default {
-  name: 'App',
-  components: {
-    ItemView
-  }
-}
+<script setup>
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<template>
+  <header>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+    </nav>
+  </header>
+  <h1>Hello World</h1>
+  <RouterView />
+</template>
