@@ -18,18 +18,20 @@
         <v-card
             theme="dark"
           >
-          <div class="d-flex flex-no-wrap justify-space-between">
-            <div>
-              <v-card-title class="text-h6">
+            <div class="d-flex ">
+              <v-card-text>
               {{ item.name }}
-              </v-card-title>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn 
+                  color="orange-lighten-2"
+                  icon="mdi-check"
+                  @click="deleteItem(item.id)">
+                </v-btn>
+              </v-card-actions>
             </div>
-            <v-card-actions>
-              <v-btn prepend-icon="mdi-check" @click="deleteItem(item.id)">
-                Done
-              </v-btn>
-            </v-card-actions>
-          </div>
           </v-card>
       </v-col>
     </v-row>
