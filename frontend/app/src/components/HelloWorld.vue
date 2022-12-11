@@ -6,7 +6,7 @@
     </form>
     <ul>
       <li v-for="item in items">
-        <button @click="deleteItem(item.id)">X</button>{{ item.name }}
+        {{ item.name }}<button @click="deleteItem(item.id)">X</button>
       </li>
     </ul>
 
