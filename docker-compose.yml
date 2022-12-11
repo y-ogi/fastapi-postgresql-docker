@@ -27,7 +27,7 @@ services:
     tty: true
     volumes:
       - ${FRONTEND_PATH}:/root
-    #command: yarn serve
+    command: yarn serve
     env_file:
       - .env
     ports:
