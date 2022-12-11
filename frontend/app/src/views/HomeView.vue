@@ -1,4 +1,5 @@
 <template>
+  {{ message }}
   <v-container>
     <v-row dense>
       <v-col cols="12">
@@ -37,6 +38,7 @@
 </template>
 
 <script>
+const API_URL = 'http://' + window.location.hostname + ':8000'
 
 export default {
   components: {
@@ -44,7 +46,6 @@ export default {
   },
   data() {
     return {
-      message: 'Click me',
       items: [],
       newItem: '',
       canSubmit: false,
@@ -55,13 +56,13 @@ export default {
   },
   methods: {
     getItems() {
-      this.axios.get('http://localhost:8000/items/')
+      this.axios.get(API_URL + '/items/')
       .then(response => {
         this.items = response.data
       })
     },
     addItem() {
-        this.axios.post('http://localhost:8000/items/', {
+        this.axios.post(API_URL + '/items/', {
           name: this.newItem
         })
         .then(response => {
@@ -70,7 +71,7 @@ export default {
         })
     },
     deleteItem(id) {
-        this.axios.delete('http://localhost:8000/items/' + id)
+        this.axios.delete(API_URL + '/items/' + id)
         .then(response => {
           console.log(response)
           this.items = this.items.filter((item) => item.id != id);
