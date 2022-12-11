@@ -1,2 +1,5 @@
-1. docker-compose up -d --build
-2. docker exec -it fastapi alembic upgrade head
+# How to try
+```
+$ docker-compose up -d --build
+$ docker exec -it fastapi alembic upgrade head
+```
