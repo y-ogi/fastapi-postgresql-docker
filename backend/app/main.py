@@ -5,8 +5,24 @@ from app.core.database import db_engine, get_db
 import app.core.crud as crud
 import app.models as models
 import app.models.schemas as schemas
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "http://192.168.0.128:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def read_root():
     return {"Hello", "World"}
