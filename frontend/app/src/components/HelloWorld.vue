@@ -1,7 +1,15 @@
 <template>
   <div class="hello">
-    <h1>Hello World {{ message }}</h1>
-    <h1>{{ items.name }}</h1>
+    <form @submit.prevent="addItem">
+      <input v-model="newItem">
+      <button>Add Item</button>    
+    </form>
+    <ul>
+      <li v-for="item in items">
+        <button @click="deleteItem(item.id)">X</button>{{ item.name }}
+      </li>
+    </ul>
+
   </div>
 </template>
 
@@ -13,6 +21,7 @@ export default {
     data() {
       return {
         message : '',
+        newItem: '',
         items: [],
       }
     },
@@ -21,9 +30,24 @@ export default {
     },
     methods: {
       getItems() {
-        this.axios.get('http://192.168.0.128:8000/items/1')
+        this.axios.get('http://192.168.0.128:8000/items/')
         .then(response => {
           this.items = response.data
+        })
+      },
+      addItem() {
+        this.axios.post('http://192.168.0.128:8000/items/', {
+          name: this.newItem
+        })
+        .then(response => {
+          this.items.push(response.data)
+          this.newItem = ''
+        })
+      },
+      deleteItem(id) {
+        this.axios.delete('http://192.168.0.128:8000/items/' + id)
+        .then(response => {
+          this.items = this.items.filter((item) => item.id != id);
         })
       }
     },

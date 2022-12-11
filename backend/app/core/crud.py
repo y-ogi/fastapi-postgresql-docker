@@ -22,3 +22,10 @@ def update_item(db: Session, item_id: int, item: schemas.ItemSchema):
         db.commit()
         db.refresh(db_item)
     return db_item
+
+def delete_item(db: Session, item_id: int):
+    db_item = get_item(db=db, item_id=item_id)
+    if db_item is not None:
+        db.delete(db_item)
+        db.commit()
+    return db_item

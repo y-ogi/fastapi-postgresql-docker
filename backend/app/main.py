@@ -34,6 +34,11 @@ def get_item(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Item not Found")
     return db_item
 
+@app.get("/items/")
+def get_items(db: Session = Depends(get_db)):
+    db_items = crud.get_items(db=db)
+    return db_items
+
 @app.post("/items/")
 def create_item(item: schemas.ItemSchema, db: Session = Depends(get_db)):
     return crud.create_item(db=db, item=item)
@@ -41,6 +46,14 @@ def create_item(item: schemas.ItemSchema, db: Session = Depends(get_db)):
 @app.post("/items/{id}")
 def update_item(item: schemas.ItemSchema, id: int, db: Session = Depends(get_db)):
     db_item = crud.update_item(db=db, item_id=id, item=item)
+    if db_item is None:
+        raise HTTPException(status_code=404, detail="Item not Found")
+    return db_item
+
+
+@app.delete("/items/{id}")
+def delete_item(id: int, db: Session = Depends(get_db)):
+    db_item = crud.delete_item(db=db, item_id=id)
     if db_item is None:
         raise HTTPException(status_code=404, detail="Item not Found")
     return db_item
