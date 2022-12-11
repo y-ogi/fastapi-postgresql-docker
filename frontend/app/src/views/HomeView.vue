@@ -1,21 +1,39 @@
 <template>
-  <v-card class="mx-auto">
-    <v-list lines="three" select-strategy="single">
+  <v-container>
+    <v-row dense>
+      <v-col cols="12">
+        <v-text-field 
+          label="Things you have to do" 
+          variant="filled" 
+          append-inner-icon="mdi-send"
+          v-model="newItem"
+          @click:append-inner="addItem"
+          @keypress.prevent.enter.exact="enableSubmit"
+          @keyup.prevent.enter.exact="submit"
+          >
+        </v-text-field>
+      </v-col>  
+      <v-col cols="12" v-for="item in items" :key="item.id">
+        <v-card
+            theme="dark"
+          >
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title class="text-h6">
+              {{ item.name }}
+              </v-card-title>
+            </div>
+            <v-card-actions>
+              <v-btn prepend-icon="mdi-check" @click="deleteItem(item.id)">
+                Done
+              </v-btn>
+            </v-card-actions>
+          </div>
+          </v-card>
+      </v-col>
+    </v-row>
 
-      <v-list-item v-for="item in items" :key="item.id" value="item.id">
-
-        <template v-slot:prepend="{ isActive }">
-          <v-list-item-action start>
-            <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
-          </v-list-item-action>
-        </template>
-        
-        <v-list-item-title>{{ item.name }}</v-list-item-title>
-        <v-list-item-subtitle>{{ item.created_at }}</v-list-item-subtitle>
-      </v-list-item>
-
-    </v-list>
-  </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -28,7 +46,8 @@ export default {
     return {
       message: 'Click me',
       items: [],
-      isActive: true,
+      newItem: '',
+      canSubmit: false,
     }
   },
   created() {
@@ -40,6 +59,30 @@ export default {
       .then(response => {
         this.items = response.data
       })
+    },
+    addItem() {
+        this.axios.post('http://localhost:8000/items/', {
+          name: this.newItem
+        })
+        .then(response => {
+          this.items.push(response.data)
+          this.newItem = ''
+        })
+    },
+    deleteItem(id) {
+        this.axios.delete('http://localhost:8000/items/' + id)
+        .then(response => {
+          console.log(response)
+          this.items = this.items.filter((item) => item.id != id);
+        })
+    },
+    enableSubmit() {
+      this.canSubmit = true
+    },
+    submit() {
+      if (!this.canSubmit) return;
+      this.addItem()
+      this.canSubmit = false
     }
   }
 }
