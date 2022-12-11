@@ -5,7 +5,7 @@
       <button>Add Item</button>    
     </form>
     <ul>
-      <li v-for="item in items">
+      <li v-for="(item, key) in items" :key="key">
         {{ item.name }}<button @click="deleteItem(item.id)">X</button>
       </li>
     </ul>
@@ -30,13 +30,13 @@ export default {
     },
     methods: {
       getItems() {
-        this.axios.get('http://192.168.0.128:8000/items/')
+        this.axios.get('http://localhost:8000/items/')
         .then(response => {
           this.items = response.data
         })
       },
       addItem() {
-        this.axios.post('http://192.168.0.128:8000/items/', {
+        this.axios.post('http://localhost:8000/items/', {
           name: this.newItem
         })
         .then(response => {
@@ -45,8 +45,9 @@ export default {
         })
       },
       deleteItem(id) {
-        this.axios.delete('http://192.168.0.128:8000/items/' + id)
+        this.axios.delete('http://localhost:8000/items/' + id)
         .then(response => {
+          console.log(response)
           this.items = this.items.filter((item) => item.id != id);
         })
       }
