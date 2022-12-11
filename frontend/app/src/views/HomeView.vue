@@ -26,7 +26,8 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn 
-                  color="orange-lighten-2"
+                 size="small"
+                  color="secondary"
                   icon="mdi-check"
                   @click="deleteItem(item.id)">
                 </v-btn>
